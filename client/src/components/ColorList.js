@@ -24,7 +24,12 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
       .then((res) => {
-        const newColor = colors.filter((edit) => edit.id === res.data);
+        const newColor = colors.map((edit) => {
+          if (edit.id === res.data.id) {
+            return res.data;
+          }
+          return edit;
+        });
         updateColors(newColor);
         setEditing(false);
       })
