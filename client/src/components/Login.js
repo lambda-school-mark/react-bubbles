@@ -1,12 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
+const Login = (props) => {
+  const initialState = { username: "Lambda School", password: "i<3Lambd4" };
+
+  const [credentials, setCredentials] = useState(initialState);
+
+  const login = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/login", credentials)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.data.payload);
+        props.history.push("/bubbles");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <>
-      <h1>Welcome to the Bubble App!</h1>
-      <p>Build a login page here</p>
+      <form onSubmit={login}>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          // onChange={onChange}
+          value={credentials.username}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          // onChange={onChange}
+          value={credentials.password}
+        />
+        <button className="button">Login</button>
+      </form>
     </>
   );
 };
