@@ -6,6 +6,10 @@ const Login = (props) => {
 
   const [credentials, setCredentials] = useState(initialState);
 
+  const onChange = (e) => {
+    setCredentials({ [e.target.name]: e.target.value });
+  };
+
   const login = (e) => {
     e.preventDefault();
     axios
@@ -27,14 +31,14 @@ const Login = (props) => {
           type="text"
           name="username"
           placeholder="Username"
-          // onChange={onChange}
+          onChange={onChange}
           value={credentials.username}
         />
         <input
           type="password"
           name="password"
           placeholder="Password"
-          // onChange={onChange}
+          onChange={onChange}
           value={credentials.password}
         />
         <button className="button">Login</button>
